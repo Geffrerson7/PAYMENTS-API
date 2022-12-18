@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     "rest_framework.authtoken",  # users
     'django_filters',#filtros
     "users",
-    "payments"
+    "payments",
+    "appservices"
 ]
 
 MIDDLEWARE = [
@@ -141,6 +142,7 @@ REST_FRAMEWORK = {
     ],
     "DEFAULT_THROTTLE_RATES": {
         "payment_1": "1000/day",
+        "services"  : "2000/day",
     },
 }
 #Caché

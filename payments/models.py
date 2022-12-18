@@ -7,4 +7,4 @@ class Payment_user_1(models.Model):
     name_service=models.CharField(max_length=20)
     amount=models.FloatField()
     paymentDate=models.DateField(auto_now_add=True)
-    user=models.ForeignKey(User, on_delete=models.CASCADE, related_name="user")
+    user=models.ForeignKey(User, on_delete=models.CASCADE, related_name="client")

@@ -4,6 +4,6 @@ from .api import PaymentViewSet1
 
 router = routers.DefaultRouter()
 
-router.register('', PaymentViewSet1, 'payment1')
+router.register('api/v1/service-payments/payments', PaymentViewSet1, 'payment1')
 
 urlpatterns = router.urls
