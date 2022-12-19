@@ -143,6 +143,8 @@ REST_FRAMEWORK = {
     "DEFAULT_THROTTLE_RATES": {
         "payment_1": "1000/day",
         "services"  : "2000/day",
+        "payments"  : "2000/day",
+        "expired-payments"  : "2000/day",
     },
 }
 #Caché
