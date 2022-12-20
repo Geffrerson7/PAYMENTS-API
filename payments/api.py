@@ -10,6 +10,7 @@ from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework import generics
 from rest_framework.settings import api_settings
+from rest_framework.request import Request
 
 class PaymentViewSet1(viewsets.ModelViewSet):
     queryset = PaymentUser1.objects.all()
@@ -32,6 +33,7 @@ class PaymentUserViewSet(APIView):
     authentication_classes=[BasicAuthentication]
     pagination_class = StandardResultsSetPagination
     throttle_scope = 'payments'
+    #serializer_class = PaymentSerializerUser
 
     def get(self, request):
         payments = PaymentUser2.objects.all()
@@ -39,14 +41,29 @@ class PaymentUserViewSet(APIView):
         return Response(serializer.data)
 
     def post(self, request, *args, **kwargs):
-        payment = PaymentSerializerUser(data=request.data)
+        payments = PaymentSerializerUser(data=request.data)
          
-        if payment.is_valid():
-            payment.save()
+        if payments.is_valid():
+            payments.save()
+            
             return Response(status=status.HTTP_201_CREATED)
-        return Response(payment.errors, status=status.HTTP_400_BAD_REQUEST)
-        
+        return Response(payments.errors, status=status.HTTP_400_BAD_REQUEST)
+       
 
+
+    # def post(self, request: Request):
+    #     data = request.data
+
+    #     serializer = self.serializer_class(data=data)
+
+    #     if serializer.is_valid():
+    #         serializer.save()
+
+    #         response = {"message": "El pago se hizo correctamente", "data": serializer.data}
+
+    #         return Response(data=response, status=status.HTTP_201_CREATED)
+
+    #     return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class PaymentAdminViewSet(viewsets.ModelViewSet):
@@ -72,8 +89,8 @@ class PaymentExpiratedViewSet(viewsets.ModelViewSet):
     permission_classes=[IsAuthenticated]
     authentication_classes=[BasicAuthentication]
         
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+    # def perform_create(self, serializer):
+    #     serializer.save(user=self.request.user)
 
-    def get_queryset(self):
-        return self.queryset.filter(user=self.request.user)
+    # def get_queryset(self):
+    #     return self.queryset.filter(user=self.request.user)

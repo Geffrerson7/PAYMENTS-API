@@ -24,7 +24,8 @@ class ServiceViewSet(viewsets.ModelViewSet):
     queryset = Service.objects.all()
     serializer_class = ServiceSerializer
     pagination_class = StandardResultsSetPagination
-    permission_classes=[IsAdminUser]
+    permission_classes=[IsAuthenticated]
+    authentication_classes=[BasicAuthentication]
     
     
     

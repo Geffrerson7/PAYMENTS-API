@@ -13,13 +13,13 @@ class PaymentSerializer1(serializers.ModelSerializer):
         read_only_fields = 'paymentDate','user',
 
 class PaymentSerializerUser(serializers.ModelSerializer):
-    service=serializers.SlugRelatedField(queryset=Service.objects.all(),slug_field="name")
+    #service=serializers.SlugRelatedField(queryset=Service.objects.all(),slug_field="name")
     
     class Meta:
         
         model = PaymentUser2
         fields = '__all__'
-        read_only_fields = 'user','paymentDate','expirationDate'
+        read_only_fields = 'user','paymentDate','expirationDate',
 
 
 
