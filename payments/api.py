@@ -1,7 +1,7 @@
 from .models import PaymentUser1, PaymentUser2, ExpiredPayments
 from rest_framework import viewsets
 from rest_framework import filters
-from .serializer import PaymentSerializer1, PaymentSerializerAdmin, PaymentSerializerUser, PaymentExpiratedSerializer
+from .serializer import PaymentSerializer1, PaymentSerializer, PaymentExpiratedSerializer
 from .pagination import StandardResultsSetPagination
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import BasicAuthentication
@@ -33,42 +33,27 @@ class PaymentUserViewSet(APIView):
     authentication_classes=[BasicAuthentication]
     pagination_class = StandardResultsSetPagination
     throttle_scope = 'payments'
-    #serializer_class = PaymentSerializerUser
+    serializer_class = PaymentSerializer
 
     def get(self, request):
         payments = PaymentUser2.objects.all()
-        serializer = PaymentSerializerUser(payments, many = True)
+        serializer = PaymentSerializer(payments, many = True)
         return Response(serializer.data)
 
     def post(self, request, *args, **kwargs):
-        payments = PaymentSerializerUser(data=request.data)
+        payments = PaymentSerializer(data=request.data)
          
         if payments.is_valid():
             payments.save()
+            #payments.get_value()
             
             return Response(status=status.HTTP_201_CREATED)
         return Response(payments.errors, status=status.HTTP_400_BAD_REQUEST)
        
 
-
-    # def post(self, request: Request):
-    #     data = request.data
-
-    #     serializer = self.serializer_class(data=data)
-
-    #     if serializer.is_valid():
-    #         serializer.save()
-
-    #         response = {"message": "El pago se hizo correctamente", "data": serializer.data}
-
-    #         return Response(data=response, status=status.HTTP_201_CREATED)
-
-    #     return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
 class PaymentAdminViewSet(viewsets.ModelViewSet):
     queryset = PaymentUser2.objects.all()
-    serializer_class = PaymentSerializerAdmin
+    serializer_class = PaymentSerializer
     pagination_class = StandardResultsSetPagination
     filter_backends = [filters.SearchFilter]
     permission_classes=[IsAuthenticated]
@@ -80,6 +65,28 @@ class PaymentAdminViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return self.queryset.filter(user=self.request.user)
+
+    #def create(self, request, *args, **kwargs):
+        # payment_data=request.data
+        # new_payment=PaymentUser2.objects.create()
+        # new_payment.save()
+        # if new_payment.get_paymentDate() > new_payment.get_expirationDate():
+        #     expired_payment=ExpiredPayments.objects.create(payment_user=new_payment.get_user())
+        #     expired_payment.save()
+        # serializer=PaymentSerializerAdmin(new_payment)
+
+        # return Response(serializer.data)
+
+    def create(self, request):
+        if isinstance(request.data, list):
+            serializer = PaymentSerializer(data=request.data, many = True)
+        else:
+            serializer = PaymentSerializer(data=request.data)
+
+        if serializer.is_valid():
+            serializer.save
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     
 class PaymentExpiratedViewSet(viewsets.ModelViewSet):

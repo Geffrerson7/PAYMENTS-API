@@ -7,6 +7,10 @@ from datetime import date
 
 class PaymentUser1(models.Model):
     """Versión 1 del modelo de las compras de usuarios"""
+    @property
+    def username(self):
+        return self.user.username
+
     name_service=models.CharField(max_length=20)
     amount=models.FloatField()
     paymentDate=models.DateField(auto_now_add=True)
@@ -14,18 +18,23 @@ class PaymentUser1(models.Model):
 
 class PaymentUser2(models.Model):
     """Versión 2 del modelo de las compras de usuarios"""
+    @property
+    def username(self):
+        return self.user.username
+     
+
     user=models.ForeignKey(User, on_delete=models.CASCADE, related_name="user")
     service=models.ForeignKey(Service, on_delete=models.CASCADE, related_name="service")
     amount=models.FloatField()
     paymentDate=models.DateField(auto_now_add=True)
     expirationDate=models.DateField(default=date(2022,12,18))
        
-    def save(self, *args, **kwargs):
-        if self.expirationDate > self.paymentDate:
-            #payment=PaymentUser2.objects.get(id=)
-            ExpiredPayments.objects.create(payment_user_id=self.pk)
+    # def save(self, *args, **kwargs):
+    #     if self.expirationDate < self.paymentDate:
+            
+    #         ExpiredPayments.objects.create(payment_user=self.pk)
        
-        super().save(*args, **kwargs)
+    #     super().save(*args, **kwargs)
     
     def get_expirationDate(self):
         return self.expirationDate 
@@ -41,6 +50,10 @@ class PaymentUser2(models.Model):
     
 
 class ExpiredPayments(models.Model):
+    @property
+    def user(self):
+        return self.payment_user.user
+
     payment_user=models.ForeignKey(PaymentUser2, on_delete=models.CASCADE, related_name="payment_user")
     penalty_fee_amount=models.FloatField(default=25.0)
     
