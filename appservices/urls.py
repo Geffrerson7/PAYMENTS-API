@@ -1,13 +1,10 @@
-from .api import GetAllService, ServiceViewSet
-from django.urls import path
+from .api import ServiceUserViewSet, ServiceAdminViewSet
+from django.urls import path, include
 from rest_framework import routers
 
 router = routers.DefaultRouter()
-router.register('api/v2/service-payments/services/crud', ServiceViewSet, 'crud-services')
+router.register(r'services', ServiceUserViewSet, basename='services-user')
+router.register(r'services-crud', ServiceAdminViewSet, basename='crud-services')
 urlpatterns = [
-    
-    path('api/v2/service-payments/services/', GetAllService.as_view(),name='getAllService'),
-    
+    path('api/v2/service-payments/', include(router.urls)),
 ]
-
-urlpatterns += router.urls

@@ -1,16 +1,15 @@
-from django.urls import path
+from django.urls import path, include
 from rest_framework import routers
-from .api import PaymentViewSet1, PaymentAdminViewSet, PaymentUserViewSet, PaymentExpiratedViewSet
+from .api import PaymentViewSet1, PaymentUserViewSet,PaymentAdminViewSet ,PaymentExpiredUserViewSet, PaymentExpiredAdminViewSet
 
 router = routers.DefaultRouter()
 
-router.register('api/v1/service-payments/payments', PaymentViewSet1, 'payment-crud-1')
-router.register('api/v2/service-payments/payments/crud', PaymentAdminViewSet, 'payments-crud')
-router.register('api/v2/service-payments/expirated/crud', PaymentExpiratedViewSet, 'expirated')
+router.register(r'v1/payments', PaymentViewSet1, basename='payments-crud-1')
+router.register(r'v2/service-payments/payments', PaymentUserViewSet, basename='payments-user')
+router.register(r'v2/service-payments/payments-crud', PaymentAdminViewSet, basename='payments-crud')
+router.register(r'v2/service-payments/expired', PaymentExpiredUserViewSet, basename='expired-user')
+router.register(r'v2/service-payments/expired-crud', PaymentExpiredAdminViewSet, basename='expired')
 
 urlpatterns = [
-    
-    path('api/v2/service-payments/payments/', PaymentUserViewSet.as_view(),name='payments'),
-    
+    path('api/', include(router.urls)),
 ]
-urlpatterns += router.urls
