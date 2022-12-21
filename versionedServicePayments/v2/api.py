@@ -5,6 +5,7 @@ from rest_framework import filters
 from rest_framework.permissions import IsAuthenticated,IsAdminUser
 from .pagination import StandardResultsSetPagination
 from .serializer import PaymentSerializer, PaymentExpiratedSerializer, ServiceSerializer
+from rest_framework.authentication import BasicAuthentication
 
 class PaymentAdminViewSet(viewsets.ModelViewSet):
     """Vista de los pagos para el admin"""
@@ -15,7 +16,6 @@ class PaymentAdminViewSet(viewsets.ModelViewSet):
     permission_classes=[IsAdminUser]
     search_fields = ['paymentDate', 'expirationDate']
     
-
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
@@ -41,6 +41,7 @@ class PaymentUserViewSet(viewsets.ModelViewSet):
     search_fields = ['paymentDate', 'expirationDate']
     http_method_names=['get','post']
     throttle_scope = 'payments-user'
+    authentication_classes=[BasicAuthentication]
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
@@ -65,6 +66,7 @@ class PaymentExpiredUserViewSet(viewsets.ModelViewSet):
     permission_classes=[IsAuthenticated]
     http_method_names=['get']
     throttle_scope = 'expired-user'
+    authentication_classes=[BasicAuthentication]
 
 class PaymentExpiredAdminViewSet(viewsets.ModelViewSet):
     """Vista de los pagos expirados para el admin"""
@@ -81,6 +83,7 @@ class ServiceUserViewSet(viewsets.ModelViewSet):
     permission_classes=[IsAuthenticated]
     http_method_names=['get']
     throttle_scope = 'services-user'
+    
 
 class ServiceAdminViewSet(viewsets.ModelViewSet):
     """Vista de los servicios para el admin"""
@@ -88,3 +91,4 @@ class ServiceAdminViewSet(viewsets.ModelViewSet):
     serializer_class = ServiceSerializer
     pagination_class = StandardResultsSetPagination
     permission_classes=[IsAdminUser]
+    

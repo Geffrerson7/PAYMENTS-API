@@ -16,7 +16,10 @@ class PaymentUser1(models.Model):
 
 class PaymentUser2(models.Model):
     """Versión 2 del modelo de los pagos de los usuarios"""
-        
+    @property
+    def email(self):
+        return self.user.email
+      
     user=models.ForeignKey(User, on_delete=models.CASCADE, related_name="user")
     service=models.ForeignKey(Service, on_delete=models.CASCADE, related_name="service")
     amount=models.FloatField()
@@ -27,8 +30,11 @@ class PaymentUser2(models.Model):
        
 
 class ExpiredPayments(models.Model):
+    @property
+    def user(self):
+        return self.payment_user.user.email 
     payment_user=models.ForeignKey(PaymentUser2, on_delete=models.CASCADE, related_name="payment_user")
-    penalty_fee_amount=models.FloatField(default=25.0)
+    penalty_fee_amount=models.FloatField(default=0.0)
     
     
     

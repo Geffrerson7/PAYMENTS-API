@@ -4,16 +4,17 @@ from rest_framework import serializers
 
 class PaymentSerializer(serializers.ModelSerializer):
     """Serializer para la vista de los pagos"""
+    service=serializers.SlugRelatedField(queryset=Service.objects.all(),slug_field="name")
     class Meta:
         model = PaymentUser2
-        fields = 'user', 'service', 'amount','paymentDate','expirationDate'
-        read_only_fields = 'user','paymentDate','expirationDate'
+        fields = 'email', 'service', 'amount','paymentDate','expirationDate'
+        read_only_fields = 'email','paymentDate','expirationDate'
 
 class PaymentExpiratedSerializer(serializers.ModelSerializer):
     """Serializer para la vista de los pagos expirados"""
     class Meta:
         model = ExpiredPayments
-        fields = 'payment_user','penalty_fee_amount'
+        fields = 'user','penalty_fee_amount'
       
 class ServiceSerializer(serializers.ModelSerializer):
     """Serializer para la vista de los servicios"""

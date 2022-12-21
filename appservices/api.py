@@ -13,6 +13,7 @@ class ServiceUserViewSet(viewsets.ModelViewSet):
     permission_classes=[IsAuthenticated]
     http_method_names=['get']
     throttle_scope = 'services-user'
+    
 
 class ServiceAdminViewSet(viewsets.ModelViewSet):
     """Vista de los servicios para el admin"""

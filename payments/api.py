@@ -4,7 +4,7 @@ from rest_framework import filters
 from .serializer import PaymentSerializer1, PaymentSerializer, PaymentExpiratedSerializer
 from .pagination import StandardResultsSetPagination
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
-#from rest_framework.authentication import BasicAuthentication
+
 
 #CRUD PAYMENTS USER V1
 class PaymentViewSet1(viewsets.ModelViewSet):
@@ -94,7 +94,7 @@ class PaymentExpiredAdminViewSet(viewsets.ModelViewSet):
     
 
 
-
+#from rest_framework.authentication import BasicAuthentication
 #authentication_classes=[BasicAuthentication]
     
     
