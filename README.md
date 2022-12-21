@@ -1,4 +1,4 @@
-# API SERVICE PAYMENTS
+# API SERVICIO DE PAGOS
 
 ## Descripción
 Es una API de pagos de servicios hecho con django rest framework.
