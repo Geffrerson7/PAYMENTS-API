@@ -1,27 +1,10 @@
-from .models import PaymentUser1, PaymentUser2, ExpiredPayments
+from payments.models import PaymentUser2, ExpiredPayments
+from appservices.models import Service
 from rest_framework import viewsets
 from rest_framework import filters
-from .serializer import PaymentSerializer1, PaymentSerializer, PaymentExpiratedSerializer
+from rest_framework.permissions import IsAuthenticated,IsAdminUser
 from .pagination import StandardResultsSetPagination
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
-#from rest_framework.authentication import BasicAuthentication
-
-#CRUD PAYMENTS USER V1
-class PaymentViewSet1(viewsets.ModelViewSet):
-    queryset = PaymentUser1.objects.all()
-    serializer_class = PaymentSerializer1
-    pagination_class = StandardResultsSetPagination
-    filter_backends = [filters.SearchFilter]
-    permission_classes=[IsAuthenticated]
-    search_fields = ['user', 'paymentDate', 'name_service']
-    throttle_scope = 'payment_1'
-
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
-
-    def get_queryset(self):
-        return self.queryset.filter(user=self.request.user)
-
+from .serializer import PaymentSerializer, PaymentExpiratedSerializer, ServiceSerializer
 
 class PaymentAdminViewSet(viewsets.ModelViewSet):
     queryset = PaymentUser2.objects.all()
@@ -85,10 +68,18 @@ class PaymentExpiredAdminViewSet(viewsets.ModelViewSet):
     serializer_class = PaymentExpiratedSerializer
     pagination_class = StandardResultsSetPagination
     permission_classes=[IsAdminUser]
-    
 
+class ServiceUserViewSet(viewsets.ModelViewSet):
+    queryset = Service.objects.all()
+    serializer_class = ServiceSerializer
+    pagination_class = StandardResultsSetPagination
+    permission_classes=[IsAuthenticated]
+    http_method_names=['get']
+    throttle_scope = 'services-user'
 
-
-#authentication_classes=[BasicAuthentication]
-    
-    
+#CRUD SERVICIOS ADMIN
+class ServiceAdminViewSet(viewsets.ModelViewSet):
+    queryset = Service.objects.all()
+    serializer_class = ServiceSerializer
+    pagination_class = StandardResultsSetPagination
+    permission_classes=[IsAdminUser]

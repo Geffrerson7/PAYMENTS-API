@@ -11,6 +11,8 @@ class PaymentUser1(models.Model):
     amount=models.FloatField()
     paymentDate=models.DateField(auto_now_add=True)
     user=models.ForeignKey(User, on_delete=models.CASCADE, related_name="client")
+    def __str__(self):
+        return f'{self.user}'
 
 class PaymentUser2(models.Model):
     """Versión 2 del modelo de las compras de usuarios"""

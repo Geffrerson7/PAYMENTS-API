@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'django_filters',#filtros
     "users",
     "payments",
-    "appservices"
+    "appservices",
+    "versionedServicePayments"
 ]
 
 MIDDLEWARE = [
