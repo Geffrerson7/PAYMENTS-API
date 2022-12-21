@@ -7,6 +7,7 @@ from .pagination import StandardResultsSetPagination
 from .serializer import PaymentSerializer, PaymentExpiratedSerializer, ServiceSerializer
 
 class PaymentAdminViewSet(viewsets.ModelViewSet):
+    """Vista de los pagos para el admin"""
     queryset = PaymentUser2.objects.all()
     serializer_class = PaymentSerializer
     pagination_class = StandardResultsSetPagination
@@ -31,6 +32,7 @@ class PaymentAdminViewSet(viewsets.ModelViewSet):
         return crear
     
 class PaymentUserViewSet(viewsets.ModelViewSet):
+    """Vista de los pagos para los usuarios"""
     queryset = PaymentUser2.objects.all()
     serializer_class = PaymentSerializer
     pagination_class = StandardResultsSetPagination
@@ -56,6 +58,7 @@ class PaymentUserViewSet(viewsets.ModelViewSet):
         return crear
 
 class PaymentExpiredUserViewSet(viewsets.ModelViewSet):
+    """Vista de los pagos expirados para los usuarios"""
     queryset = ExpiredPayments.objects.all()
     serializer_class = PaymentExpiratedSerializer
     pagination_class = StandardResultsSetPagination
@@ -64,12 +67,14 @@ class PaymentExpiredUserViewSet(viewsets.ModelViewSet):
     throttle_scope = 'expired-user'
 
 class PaymentExpiredAdminViewSet(viewsets.ModelViewSet):
+    """Vista de los pagos expirados para el admin"""
     queryset = ExpiredPayments.objects.all()
     serializer_class = PaymentExpiratedSerializer
     pagination_class = StandardResultsSetPagination
     permission_classes=[IsAdminUser]
 
 class ServiceUserViewSet(viewsets.ModelViewSet):
+    """Vista de los servicios para los usuarios"""
     queryset = Service.objects.all()
     serializer_class = ServiceSerializer
     pagination_class = StandardResultsSetPagination
@@ -77,8 +82,8 @@ class ServiceUserViewSet(viewsets.ModelViewSet):
     http_method_names=['get']
     throttle_scope = 'services-user'
 
-#CRUD SERVICIOS ADMIN
 class ServiceAdminViewSet(viewsets.ModelViewSet):
+    """Vista de los servicios para el admin"""
     queryset = Service.objects.all()
     serializer_class = ServiceSerializer
     pagination_class = StandardResultsSetPagination

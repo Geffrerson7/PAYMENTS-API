@@ -6,7 +6,7 @@ from datetime import date
 # Create your models here.
 
 class PaymentUser1(models.Model):
-    """Versión 1 del modelo de las compras de usuarios"""
+    """Versión 1 del modelo de los pagos de los usuarios"""
     name_service=models.CharField(max_length=20)
     amount=models.FloatField()
     paymentDate=models.DateField(auto_now_add=True)
@@ -15,7 +15,7 @@ class PaymentUser1(models.Model):
         return f'{self.user}'
 
 class PaymentUser2(models.Model):
-    """Versión 2 del modelo de las compras de usuarios"""
+    """Versión 2 del modelo de los pagos de los usuarios"""
         
     user=models.ForeignKey(User, on_delete=models.CASCADE, related_name="user")
     service=models.ForeignKey(Service, on_delete=models.CASCADE, related_name="service")

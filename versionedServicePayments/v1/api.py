@@ -6,6 +6,7 @@ from rest_framework import filters
 from rest_framework.permissions import IsAuthenticated
 
 class PaymentViewSet1(viewsets.ModelViewSet):
+    """Vista de los pagos para los usuarios"""
     queryset = PaymentUser1.objects.all()
     serializer_class = PaymentSerializer1
     pagination_class = StandardResultsSetPagination
@@ -13,6 +14,7 @@ class PaymentViewSet1(viewsets.ModelViewSet):
     permission_classes=[IsAuthenticated]
     search_fields = ['user', 'paymentDate', 'name_service']
     throttle_scope = 'payment_1'
+    http_method_names=['get','post']
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)

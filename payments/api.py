@@ -8,6 +8,7 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser
 
 #CRUD PAYMENTS USER V1
 class PaymentViewSet1(viewsets.ModelViewSet):
+    """Vista de los pagos para los usuarios"""
     queryset = PaymentUser1.objects.all()
     serializer_class = PaymentSerializer1
     pagination_class = StandardResultsSetPagination
@@ -15,6 +16,7 @@ class PaymentViewSet1(viewsets.ModelViewSet):
     permission_classes=[IsAuthenticated]
     search_fields = ['user', 'paymentDate', 'name_service']
     throttle_scope = 'payment_1'
+    http_method_names=['get','post']
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
@@ -24,6 +26,7 @@ class PaymentViewSet1(viewsets.ModelViewSet):
 
 
 class PaymentAdminViewSet(viewsets.ModelViewSet):
+    """Vista de los pagos para el admin"""
     queryset = PaymentUser2.objects.all()
     serializer_class = PaymentSerializer
     pagination_class = StandardResultsSetPagination
@@ -48,6 +51,7 @@ class PaymentAdminViewSet(viewsets.ModelViewSet):
         return crear
     
 class PaymentUserViewSet(viewsets.ModelViewSet):
+    """Vista de los pagos para los usuarios"""
     queryset = PaymentUser2.objects.all()
     serializer_class = PaymentSerializer
     pagination_class = StandardResultsSetPagination
@@ -73,6 +77,7 @@ class PaymentUserViewSet(viewsets.ModelViewSet):
         return crear
 
 class PaymentExpiredUserViewSet(viewsets.ModelViewSet):
+    """Vista de los pagos expirados para los usuarios"""
     queryset = ExpiredPayments.objects.all()
     serializer_class = PaymentExpiratedSerializer
     pagination_class = StandardResultsSetPagination
@@ -81,6 +86,7 @@ class PaymentExpiredUserViewSet(viewsets.ModelViewSet):
     throttle_scope = 'expired-user'
 
 class PaymentExpiredAdminViewSet(viewsets.ModelViewSet):
+    """Vista de los pagos expirados para el admin"""
     queryset = ExpiredPayments.objects.all()
     serializer_class = PaymentExpiratedSerializer
     pagination_class = StandardResultsSetPagination
