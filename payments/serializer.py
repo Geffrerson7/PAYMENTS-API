@@ -16,13 +16,13 @@ class PaymentSerializer(serializers.ModelSerializer):
     class Meta:
         
         model = PaymentUser2
-        fields = 'username', 'service', 'amount','paymentDate','expirationDate'
-        read_only_fields = 'username','paymentDate','expirationDate'
+        fields = 'email', 'service', 'amount','paymentDate','expirationDate'
+        read_only_fields = 'email','paymentDate','expirationDate'
 
 class PaymentExpiratedSerializer(serializers.ModelSerializer):
     """Serializer para la vista pagos expirados de los usuarios y admin"""
     class Meta:
         
         model = ExpiredPayments
-        fields = 'user','penalty_fee_amount'
+        fields = 'amount','penalty_fee_amount'
         

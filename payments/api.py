@@ -22,7 +22,7 @@ class PaymentViewSet1(viewsets.ModelViewSet):
         serializer.save(user=self.request.user)
 
     def get_queryset(self):
-        return self.queryset.filter(user=self.request.user)
+        return self.queryset.filter(user=self.request.user.id)
 
 
 class PaymentAdminViewSet(viewsets.ModelViewSet):
@@ -39,7 +39,7 @@ class PaymentAdminViewSet(viewsets.ModelViewSet):
         serializer.save(user=self.request.user)
 
     def get_queryset(self):
-        return self.queryset.filter(user=self.request.user)
+        return self.queryset.filter(user=self.request.user.id)
 
     def create(self, request, *args, **kwargs):
         crear=super().create(request, *args, **kwargs)
@@ -60,17 +60,19 @@ class PaymentUserViewSet(viewsets.ModelViewSet):
     search_fields = ['paymentDate', 'expirationDate']
     http_method_names=['get','post']
     throttle_scope = 'payments-user'
+    
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
     def get_queryset(self):
-        return self.queryset.filter(user=self.request.user)
+        return self.queryset.filter(user=self.request.user.id)
 
     def create(self, request, *args, **kwargs):
         crear=super().create(request, *args, **kwargs)
         last=PaymentUser2.objects.order_by("-id").first()
         pago=PaymentUser2.objects.get(id=last.id)
+        print(request.user)
         if pago.paymentDate > pago.expirationDate:
             expired=ExpiredPayments(payment_user=pago,penalty_fee_amount=25)
             expired.save()
@@ -94,7 +96,6 @@ class PaymentExpiredAdminViewSet(viewsets.ModelViewSet):
     
 
 
-#from rest_framework.authentication import BasicAuthentication
-#authentication_classes=[BasicAuthentication]
+
     
     

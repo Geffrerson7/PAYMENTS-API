@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from payments.models import PaymentUser1
 
-class PaymentSerializer1(serializers.ModelSerializer):
+class PaymentSerializerv1(serializers.ModelSerializer):
     """Serializer para la vista de los usuarios"""
     class Meta:
         model = PaymentUser1

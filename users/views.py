@@ -5,7 +5,7 @@ from rest_framework import generics, status
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
+from django.contrib.auth import logout
 from .serializer import SignUpSerializer, GetUserSerializer
 from .tokens import create_jwt_pair_for_user
 from rest_framework import viewsets
@@ -42,11 +42,16 @@ class LoginView(APIView):
         if user is not None:
             tokens = create_jwt_pair_for_user(user)
 
-            response = {"message": "Logeado correctamente", "email": email ,"tokens": tokens}
+            data={
+                "id":user.id,
+                "email":email,
+                "username":user.username
+            }
+            response = {"message": "Logeado correctamente", "data":data ,"tokens": tokens}
             return Response(data=response, status=status.HTTP_200_OK)
 
         else:
-            return Response(data={"message": "Correo inválido o contraseña incorrecta"})
+            return Response(data={"message": "Correo inválido o contraseña incorrecta"},status=status.HTTP_400_BAD_REQUEST)
 
     def get(self, request: Request):
         content = {"user": str(request.user), "auth": str(request.auth)}
@@ -57,3 +62,11 @@ class GetUsers(viewsets.ReadOnlyModelViewSet):
     """Retorna la lista de de usuariso registrados"""
     serializer_class = GetUserSerializer
     queryset = User.objects.all()
+
+# logout(request)
+# from django.contrib.auth import logout
+class LogoutView(APIView):
+    def post(self, request):
+        logout(request)
+       
+        return Response(status=status.HTTP_200_OK)

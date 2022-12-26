@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
-
+from datetime import timedelta
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -45,12 +45,14 @@ INSTALLED_APPS = [
     "users",
     "payments",
     "appservices",
-    "versionedServicePayments"
+    "versionedServicePayments",
+    "corsheaders"
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -156,3 +158,10 @@ CACHES = {
         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
     },
 }
+
+SIMPLE_JWT ={
+    'ACCESS_TOKEN_LIFETIME':timedelta(minutes=20),
+    'REFRESH_TOKEN_LIFETIME':timedelta(days=90)
+}
+
+CORS_ALLOW_ALL_ORIGINS=True
