@@ -1,4 +1,3 @@
-
 from django.contrib.auth import authenticate
 from django.shortcuts import render
 from rest_framework import generics, status
@@ -10,12 +9,13 @@ from .serializer import SignUpSerializer, GetUserSerializer
 from .tokens import create_jwt_pair_for_user
 from rest_framework import viewsets
 from .models import User
-# Create your views here.
 
+# Create your views here.
 
 
 class SignUpView(generics.GenericAPIView):
     """Confirma si el usuario se registró correctamente"""
+
     serializer_class = SignUpSerializer
 
     def post(self, request: Request):
@@ -26,14 +26,19 @@ class SignUpView(generics.GenericAPIView):
         if serializer.is_valid():
             serializer.save()
 
-            response = {"message": "El usuario se creó correctamente", "data": serializer.data}
+            response = {
+                "message": "El usuario se creó correctamente",
+                "data": serializer.data,
+            }
 
             return Response(data=response, status=status.HTTP_201_CREATED)
 
         return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 class LoginView(APIView):
     """Confirma si el usuario inició sesión y se le muestra los tokens"""
+
     def post(self, request: Request):
         email = request.data.get("email")
         password = request.data.get("password")
@@ -42,31 +47,36 @@ class LoginView(APIView):
         if user is not None:
             tokens = create_jwt_pair_for_user(user)
 
-            data={
-                "id":user.id,
-                "email":email,
-                "username":user.username
+            response = {
+                "message": "Logeado correctamente",
+                "data": GetUserSerializer(user).data,
+                "tokens": tokens,
             }
-            response = {"message": "Logeado correctamente", "data":data ,"tokens": tokens}
             return Response(data=response, status=status.HTTP_200_OK)
 
         else:
-            return Response(data={"message": "Correo inválido o contraseña incorrecta"},status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                data={"message": "Correo inválido o contraseña incorrecta"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
     def get(self, request: Request):
         content = {"user": str(request.user), "auth": str(request.auth)}
 
         return Response(data=content, status=status.HTTP_200_OK)
 
+
 class GetUsers(viewsets.ReadOnlyModelViewSet):
     """Retorna la lista de de usuariso registrados"""
+
     serializer_class = GetUserSerializer
     queryset = User.objects.all()
+
 
 # logout(request)
 # from django.contrib.auth import logout
 class LogoutView(APIView):
     def post(self, request):
         logout(request)
-       
+
         return Response(status=status.HTTP_200_OK)
