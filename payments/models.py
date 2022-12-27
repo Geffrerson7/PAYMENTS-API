@@ -35,7 +35,7 @@ class PaymentUser2(models.Model):
 class ExpiredPayments(models.Model):
     @property
     def user(self):
-        return self.payment_user.user.username
+        return self.payment_user.user.email
     @property
     def service_logo(self):
         return self.payment_user.service.logo
