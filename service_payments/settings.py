@@ -160,8 +160,10 @@ CACHES = {
 }
 
 SIMPLE_JWT ={
-    'ACCESS_TOKEN_LIFETIME':timedelta(minutes=90),
+    'ACCESS_TOKEN_LIFETIME':timedelta(days=60),
     'REFRESH_TOKEN_LIFETIME':timedelta(days=90)
 }
 
 CORS_ALLOW_ALL_ORIGINS=True
+# MEDIA_URL= "/media/"
+# MEDIA_ROOT=os.path.join(BASE_DIR, 'media')

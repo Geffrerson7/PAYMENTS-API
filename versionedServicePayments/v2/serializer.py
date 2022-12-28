@@ -15,10 +15,8 @@ class PaymentExpiratedSerializerv2(serializers.ModelSerializer):
     class Meta:
         model = ExpiredPayments
         fields = 'service_logo','service','paymentDate','amount','penalty_fee_amount','user'
-        filter= 'user'
     
     
-       
       
 class ServiceSerializerv2(serializers.ModelSerializer):
     """Serializer para la vista de los servicios"""
