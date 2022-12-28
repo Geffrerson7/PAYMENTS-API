@@ -20,6 +20,22 @@ class PaymentAdminViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.SearchFilter]
     permission_classes = [IsAdminUser]
     search_fields = ["paymentDate", "expirationDate"]
+    
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+    def get_queryset(self):
+        return self.queryset.filter(user=self.request.user.id)
+
+    def create(self, request, *args, **kwargs):
+        crear = super().create(request, *args, **kwargs)
+        last = PaymentUser2.objects.order_by("-id").first()
+        pago = PaymentUser2.objects.get(id=last.id)
+
+        if pago.paymentDate > pago.expirationDate:
+            expired = ExpiredPayments(payment_user=pago, penalty_fee_amount=25)
+            expired.save()
+        return crear
 
 class PaymentUserViewSet(viewsets.ModelViewSet):
     """Vista de los pagos para los usuarios"""
