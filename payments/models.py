@@ -1,6 +1,7 @@
 from django.db import models
 from users.models import User
 from appservices.models import Service
+from PIL import Image
 from django.utils import timezone
 from datetime import date
 # Create your models here.
@@ -51,5 +52,18 @@ class ExpiredPayments(models.Model):
     payment_user=models.ForeignKey(PaymentUser2, on_delete=models.CASCADE, related_name="payment_user")
     penalty_fee_amount=models.FloatField(default=0.0)
     
-    
-    
+from PIL import Image
+
+
+class Avatar(models.Model):
+    name=models.CharField(max_length=200, default="")
+    image = models.ImageField(default="default-profile.jpg", upload_to="profile_image")
+
+    # def save(self, *args, **kwargs):
+    #     super(Profile,self).save(*args, **kwargs)
+    #     if self.image:
+    #         img = Image.open(self.image.path)
+    #         if img.height > 300 or img.width > 300:
+    #             output_size = (300, 300)
+    #             img.thumbnail(output_size)
+    #             img.save(self.image.path)

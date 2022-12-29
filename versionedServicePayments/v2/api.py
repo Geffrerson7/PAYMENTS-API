@@ -1,4 +1,4 @@
-from payments.models import PaymentUser2, ExpiredPayments
+from payments.models import PaymentUser2, ExpiredPayments, Avatar
 from appservices.models import Service
 from rest_framework import viewsets
 from rest_framework import filters
@@ -8,8 +8,9 @@ from .serializer import (
     PaymentSerializerv2,
     PaymentExpiratedSerializerv2,
     ServiceSerializerv2,
+    AvatarSerializer
 )
-
+from rest_framework.authentication import BasicAuthentication
 
 class PaymentAdminViewSet(viewsets.ModelViewSet):
     """Vista de los pagos para el admin"""
@@ -95,7 +96,7 @@ class ServiceUserViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     http_method_names = ["get"]
     throttle_scope = "services-user"
-
+    
 
 class ServiceAdminViewSet(viewsets.ModelViewSet):
     """Vista de los servicios para el admin"""
@@ -105,6 +106,14 @@ class ServiceAdminViewSet(viewsets.ModelViewSet):
     pagination_class = StandardResultsSetPagination
     permission_classes = [IsAdminUser]
 
+class AvatarViewSet(viewsets.ModelViewSet):
+    queryset=Avatar.objects.all()
+    serializer_class=AvatarSerializer
+    permission_classes = [IsAuthenticated]
+    
+
+    
 
 #from rest_framework.authentication import BasicAuthentication
 #authentication_classes=[BasicAuthentication]
+#pip freeze > requirements.txt

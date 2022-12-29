@@ -1,4 +1,4 @@
-from payments.models import PaymentUser2, ExpiredPayments
+from payments.models import PaymentUser2, ExpiredPayments, Avatar
 from appservices.models import Service
 from rest_framework import serializers
 
@@ -24,3 +24,8 @@ class ServiceSerializerv2(serializers.ModelSerializer):
         model = Service
         fields = '__all__'
           
+class AvatarSerializer(serializers.ModelSerializer):
+    """Serializer para la vista del perfil de usuario"""
+    class Meta:
+        model = Avatar
+        fields='__all__'
