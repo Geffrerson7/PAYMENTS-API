@@ -9,5 +9,5 @@ router.register(r'payments-crud', api.PaymentAdminViewSet, basename='payments-cr
 router.register(r'expired', api.PaymentExpiredUserViewSet, basename='expired')
 router.register(r'expired-crud', api.PaymentExpiredAdminViewSet, basename='expired-crud')
 router.register(r'avatar', api.AvatarViewSet, basename='avatar')
-
+router.register(r'profile', api.UserProfileViewSet, basename='profile')
 api_urlpatterns = router.urls

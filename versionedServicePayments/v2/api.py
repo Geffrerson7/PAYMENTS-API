@@ -1,4 +1,4 @@
-from payments.models import PaymentUser2, ExpiredPayments, Avatar
+from payments.models import PaymentUser2, ExpiredPayments, Avatar, UserProfile
 from appservices.models import Service
 from rest_framework import viewsets
 from rest_framework import filters
@@ -8,7 +8,8 @@ from .serializer import (
     PaymentSerializerv2,
     PaymentExpiratedSerializerv2,
     ServiceSerializerv2,
-    AvatarSerializer
+    AvatarSerializer,
+    UserProfileSerializer
 )
 from rest_framework.authentication import BasicAuthentication
 
@@ -49,6 +50,7 @@ class PaymentUserViewSet(viewsets.ModelViewSet):
     search_fields = ["paymentDate", "expirationDate"]
     http_method_names = ["get", "post"]
     throttle_scope = "payments-user"
+    
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
@@ -76,7 +78,7 @@ class PaymentExpiredUserViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     http_method_names = ["get"]
     throttle_scope = "expired-user"
-
+    
 
 class PaymentExpiredAdminViewSet(viewsets.ModelViewSet):
     """Vista de los pagos expirados para el admin"""
@@ -112,8 +114,20 @@ class AvatarViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     
 
-    
+class UserProfileViewSet(viewsets.ModelViewSet):
+    """Vista de la foto de perfil del usuario"""
 
+    queryset = UserProfile.objects.all()
+    serializer_class = UserProfileSerializer
+    pagination_class = StandardResultsSetPagination
+    permission_classes = [IsAuthenticated]
+    
+    
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+    
+    def get_queryset(self):
+        return self.queryset.filter(user=self.request.user.id)
 #from rest_framework.authentication import BasicAuthentication
 #authentication_classes=[BasicAuthentication]
 #pip freeze > requirements.txt

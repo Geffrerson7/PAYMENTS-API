@@ -145,8 +145,8 @@ REST_FRAMEWORK = {
         "rest_framework.throttling.ScopedRateThrottle",
     ],
     "DEFAULT_THROTTLE_RATES": {
-        "payment_1": "1000/day",
-        "payments-user"  : "1000/day",
+        "payment_1": "2000/day",
+        "payments-user"  : "2000/day",
         "services-user"  : "2000/day",
         "expired-user": "2000/day",
         
