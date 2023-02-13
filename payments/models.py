@@ -49,12 +49,7 @@ class ExpiredPayments(models.Model):
         return self.payment_user.paymentDate
     payment_user=models.ForeignKey(PaymentUser2, on_delete=models.CASCADE, related_name="payment_user")
     penalty_fee_amount=models.FloatField(default=0.0)
-    
-
-class Avatar(models.Model):
-    name=models.CharField(max_length=200, default="")
-    image = models.ImageField(default="default-profile.jpg", upload_to="profile_image")
-
+  
 class UserProfile(models.Model):
     @property
     def username(self):

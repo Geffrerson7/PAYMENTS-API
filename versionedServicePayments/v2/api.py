@@ -1,4 +1,4 @@
-from payments.models import PaymentUser2, ExpiredPayments, Avatar, UserProfile
+from payments.models import PaymentUser2, ExpiredPayments, UserProfile
 from appservices.models import Service
 from rest_framework import viewsets
 from rest_framework import filters
@@ -98,8 +98,7 @@ class ServiceUserViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     http_method_names = ["get"]
     throttle_scope = "services-user"
-    
-
+ 
 class ServiceAdminViewSet(viewsets.ModelViewSet):
     """Vista de los servicios para el admin"""
 
@@ -107,13 +106,7 @@ class ServiceAdminViewSet(viewsets.ModelViewSet):
     serializer_class = ServiceSerializerv2
     pagination_class = StandardResultsSetPagination
     permission_classes = [IsAdminUser]
-
-class AvatarViewSet(viewsets.ModelViewSet):
-    queryset=Avatar.objects.all()
-    serializer_class=AvatarSerializer
-    permission_classes = [IsAuthenticated]
-    
-
+ 
 class UserProfileViewSet(viewsets.ModelViewSet):
     """Vista de la foto de perfil del usuario"""
 
