@@ -8,7 +8,6 @@ from .serializer import (
     PaymentSerializerv2,
     PaymentExpiratedSerializerv2,
     ServiceSerializerv2,
-    AvatarSerializer,
     UserProfileSerializer
 )
 from rest_framework.authentication import BasicAuthentication
