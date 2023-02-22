@@ -18,13 +18,7 @@ urlpatterns = [
     path("jwt/create/", TokenObtainPairView.as_view(), name="jwt_create"),
     path("jwt/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path("jwt/verify/", TokenVerifyView.as_view(), name="token_verify"),
-    #path("list/", views.GetUsers.as_view(), name="list-users"),
 ]
 
 urlpatterns += router.urls
-"""
-{
-"email":"gef@mail.com",
-"password":"skonechuty7"
-}
-"""
+

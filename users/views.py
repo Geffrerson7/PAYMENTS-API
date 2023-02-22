@@ -1,5 +1,4 @@
 from django.contrib.auth import authenticate
-from django.shortcuts import render
 from rest_framework import generics, status
 from rest_framework.request import Request
 from rest_framework.response import Response
@@ -72,9 +71,6 @@ class GetUsers(viewsets.ReadOnlyModelViewSet):
     serializer_class = GetUserSerializer
     queryset = User.objects.all()
 
-
-# logout(request)
-# from django.contrib.auth import logout
 class LogoutView(APIView):
     def post(self, request):
         logout(request)
