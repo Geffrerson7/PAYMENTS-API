@@ -175,6 +175,7 @@ SIMPLE_JWT = {
 CORS_ALLOW_ALL_ORIGINS = True
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-
+if not DEBUG:    
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
