@@ -56,17 +56,11 @@ Una vez concluido, procedemos a iniciar la app
 ```sh
 (env)$ python manage.py runserver
 ```
-Para la versión 1 diríjase a la ruta:
+
+## API Reference
+
+### Documentation
 ```sh
-http://127.0.0.1:8000/api/v1/payments/
+https://payments-api-2fqe.onrender.com/swagger
 ```
 
-Y para la versión 2 diríjase a las rutas:
-```sh
-http://127.0.0.1:8000/api/v2/payments/
-http://127.0.0.1:8000/api/v2/payments-crud/
-http://127.0.0.1:8000/api/v2/services/
-http://127.0.0.1:8000/api/v2/services-crud/
-http://127.0.0.1:8000/api/v2/expired/
-http://127.0.0.1:8000/api/v2/expired-crud/
-```
