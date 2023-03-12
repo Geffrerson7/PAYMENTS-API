@@ -9,10 +9,10 @@ class SignUpSerializer(serializers.ModelSerializer):
     email = serializers.CharField(max_length=80)
     username = serializers.CharField(max_length=45)
     password = serializers.CharField(min_length=8, write_only=True)
-
+    
     class Meta:
         model = User
-        fields = ["email", "username", "password"]
+        fields = ["email", "username", "password", "is_superuser"]
 
     def validate(self, attrs):
 
@@ -39,5 +39,5 @@ class GetUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ["email", "username", "password", "is_superuser"]  
+        fields = ["email", "username", "password", "is_superuser", "is_staff"]  
 
