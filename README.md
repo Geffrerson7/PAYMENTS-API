@@ -11,7 +11,7 @@ Es una API de pagos de servicios hecho con django rest framework.
 Crear un entorno virtual y lo activamos:
 
 ```sh
-$ python virtualenv venv
+$ virtualenv venv
 # windows
 $ source venv/Scripts/activate
 # Linux
