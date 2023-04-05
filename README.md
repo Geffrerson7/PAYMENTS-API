@@ -1,17 +1,22 @@
 # API SERVICIO DE PAGOS
 
 ## Descripción
-Es una API de pagos de servicios hecho con django rest framework.
+Es una API de pagos de servicios que permite en la condición de usuarios añadir pagos de los servicios de streaming y listarlos en realizados y vencidos. Y en el lado del admin adicionalmente puede crear y actualizar la información de un servicio.
 
-## Autor
-- [Gefferson Max Casasola Huamancusi](https://www.github.com/Geffrerson7)
+## ERD
+
+![ERD-PAYMENTS](https://user-images.githubusercontent.com/61089189/230167491-f999942a-3877-40ad-a799-a1c5b520e4a6.png)
 
 ## Setup
 
-Crear un entorno virtual y lo activamos:
+Crear un entorno virtual:
 
 ```sh
 $ virtualenv venv
+```
+
+Activar el entorno virtual
+```sh
 # windows
 $ source venv/Scripts/activate
 # Linux
@@ -40,11 +45,11 @@ urlpatterns = [
    ...
 ]
 ```
-Luego de hacer esos pasos, realizamos la migración.
+Luego de hacer esos pasos, realizamos la migración del modelo users.
 ```sh
-python manage.py makemigrations users
+(env) $ python manage.py makemigrations users
 
-python manage.py migrate
+(env) $ python manage.py migrate
 ```
 Luego de haber realizado la migración, descomentamos todo lo anterior y realizamos las otras migraciones.
 ```sh
@@ -57,11 +62,12 @@ Una vez concluido, procedemos a iniciar la app
 (env)$ python manage.py runserver
 ```
 
-## API Reference
+## Documentación
+Para la documentación del proyecto se utilizó Swagger por su capacidad para generar documentación dinámica y en tiempo real de los servicios web que se están construyendo.
+La documentación del projecto en swagger está en este [Link](https://payments-api-2fqe.onrender.com/swagger/)
 
-### Documentation
-```sh
-https://payments-api-2fqe.onrender.com/swagger
-```
 ## Frontend
 - El reposistorio del forntend está en este [enlace](https://www.github.com/Geffrerson7).
+
+## Autor
+- [Gefferson Max Casasola Huamancusi](https://www.github.com/Geffrerson7)
