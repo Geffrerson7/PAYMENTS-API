@@ -8,20 +8,19 @@ from .serializer import (
     PaymentSerializerv2,
     PaymentExpiratedSerializerv2,
     ServiceSerializerv2,
-    UserProfileSerializer
+    UserProfileSerializer,
 )
 from rest_framework.authentication import BasicAuthentication
 
-class PaymentAdminViewSet(viewsets.ModelViewSet):
-    """Vista de los pagos para el admin"""
 
+class PaymentAdminViewSet(viewsets.ModelViewSet):
     queryset = PaymentUser2.objects.all()
     serializer_class = PaymentSerializerv2
     pagination_class = StandardResultsSetPagination
     filter_backends = [filters.SearchFilter]
     permission_classes = [IsAdminUser]
     search_fields = ["paymentDate", "expirationDate"]
-    
+
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
@@ -38,9 +37,8 @@ class PaymentAdminViewSet(viewsets.ModelViewSet):
             expired.save()
         return crear
 
-class PaymentUserViewSet(viewsets.ModelViewSet):
-    """Vista de los pagos para los usuarios"""
 
+class PaymentUserViewSet(viewsets.ModelViewSet):
     queryset = PaymentUser2.objects.all()
     serializer_class = PaymentSerializerv2
     pagination_class = StandardResultsSetPagination
@@ -49,7 +47,6 @@ class PaymentUserViewSet(viewsets.ModelViewSet):
     search_fields = ["paymentDate", "expirationDate"]
     http_method_names = ["get", "post"]
     throttle_scope = "payments-user"
-    
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
@@ -69,19 +66,15 @@ class PaymentUserViewSet(viewsets.ModelViewSet):
 
 
 class PaymentExpiredUserViewSet(viewsets.ModelViewSet):
-    """Vista de los pagos expirados para los usuarios"""
-
     queryset = ExpiredPayments.objects.all()
     serializer_class = PaymentExpiratedSerializerv2
     pagination_class = StandardResultsSetPagination
     permission_classes = [IsAuthenticated]
     http_method_names = ["get"]
     throttle_scope = "expired-user"
-    
+
 
 class PaymentExpiredAdminViewSet(viewsets.ModelViewSet):
-    """Vista de los pagos expirados para el admin"""
-
     queryset = ExpiredPayments.objects.all()
     serializer_class = PaymentExpiratedSerializerv2
     pagination_class = StandardResultsSetPagination
@@ -89,37 +82,29 @@ class PaymentExpiredAdminViewSet(viewsets.ModelViewSet):
 
 
 class ServiceUserViewSet(viewsets.ModelViewSet):
-    """Vista de los servicios para los usuarios"""
-
     queryset = Service.objects.all()
     serializer_class = ServiceSerializerv2
     pagination_class = StandardResultsSetPagination
     permission_classes = [IsAuthenticated]
     http_method_names = ["get"]
     throttle_scope = "services-user"
- 
-class ServiceAdminViewSet(viewsets.ModelViewSet):
-    """Vista de los servicios para el admin"""
 
+
+class ServiceAdminViewSet(viewsets.ModelViewSet):
     queryset = Service.objects.all()
     serializer_class = ServiceSerializerv2
     pagination_class = StandardResultsSetPagination
     permission_classes = [IsAdminUser]
- 
-class UserProfileViewSet(viewsets.ModelViewSet):
-    """Vista de la foto de perfil del usuario"""
 
+
+class UserProfileViewSet(viewsets.ModelViewSet):
     queryset = UserProfile.objects.all()
     serializer_class = UserProfileSerializer
     pagination_class = StandardResultsSetPagination
     permission_classes = [IsAuthenticated]
-    
-    
+
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
-    
+
     def get_queryset(self):
         return self.queryset.filter(user=self.request.user.id)
-#from rest_framework.authentication import BasicAuthentication
-#authentication_classes=[BasicAuthentication]
-#pip freeze > requirements.txt

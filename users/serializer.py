@@ -5,17 +5,15 @@ from .models import User
 
 
 class SignUpSerializer(serializers.ModelSerializer):
-    """Se crea el usuario y se valida el email."""
     email = serializers.CharField(max_length=80)
     username = serializers.CharField(max_length=45)
     password = serializers.CharField(min_length=8, write_only=True)
-    
+
     class Meta:
         model = User
-        fields = ["email", "username", "password", "is_superuser"]
+        fields = ["email", "username", "password"]
 
     def validate(self, attrs):
-
         email_exists = User.objects.filter(email=attrs["email"]).exists()
         if email_exists:
             raise ValidationError("El email ya ha sido usado")
@@ -32,12 +30,10 @@ class SignUpSerializer(serializers.ModelSerializer):
 
 
 class GetUserSerializer(serializers.ModelSerializer):
-    """Retorna el listado de usuarios"""
     email = serializers.CharField(max_length=80)
     username = serializers.CharField(max_length=45)
     password = serializers.CharField(min_length=8, write_only=True)
 
     class Meta:
         model = User
-        fields = ["email", "username", "password", "is_superuser", "is_staff"]  
-
+        fields = ["email", "username", "password", "is_superuser", "is_staff", "id"]

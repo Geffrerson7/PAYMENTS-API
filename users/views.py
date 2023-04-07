@@ -9,12 +9,8 @@ from .tokens import create_jwt_pair_for_user
 from rest_framework import viewsets
 from .models import User
 
-# Create your views here.
-
 
 class SignUpView(generics.GenericAPIView):
-    """Confirma si el usuario se registró correctamente"""
-
     serializer_class = SignUpSerializer
 
     def post(self, request: Request):
@@ -36,8 +32,6 @@ class SignUpView(generics.GenericAPIView):
 
 
 class LoginView(APIView):
-    """Confirma si el usuario inició sesión y se le muestra los tokens"""
-
     def post(self, request: Request):
         email = request.data.get("email")
         password = request.data.get("password")
@@ -45,12 +39,8 @@ class LoginView(APIView):
         user = authenticate(email=email, password=password)
         if user is not None:
             tokens = create_jwt_pair_for_user(user)
-
-            response = {
-                "message": "Logeado correctamente",
-                "data": GetUserSerializer(user).data,
-                "tokens": tokens,
-            }
+            data = {"user": GetUserSerializer(user).data, "tokens": tokens}
+            response = {"message": "Logeado correctamente", "data": data}
             return Response(data=response, status=status.HTTP_200_OK)
 
         else:
@@ -66,10 +56,9 @@ class LoginView(APIView):
 
 
 class GetUsers(viewsets.ReadOnlyModelViewSet):
-    """Retorna la lista de de usuariso registrados"""
-
     serializer_class = GetUserSerializer
     queryset = User.objects.all()
+
 
 class LogoutView(APIView):
     def post(self, request):

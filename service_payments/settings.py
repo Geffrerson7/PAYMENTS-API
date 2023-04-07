@@ -22,11 +22,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = 'django-insecure-c)_ov-wogfmw__&c6-&t&t%idi)c^zjwj)0_(-&i-s-i9o0cus'
+
 SECRET_KEY = os.environ.get("SECRET_KEY", default="your secret key")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True
+
 DEBUG = "RENDER" not in os.environ
 
 ALLOWED_HOSTS = []
@@ -45,19 +45,19 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "drf_yasg",
     "rest_framework",
-    "rest_framework_simplejwt",  # users
-    "rest_framework.authtoken",  # users
-    "django_filters",  # filtros
-    "users",
+    "rest_framework_simplejwt",
+    "rest_framework.authtoken",
+    "django_filters",
     "payments",
     "appservices",
     "versionedServicePayments",
     "corsheaders",
+    "users"
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -92,10 +92,7 @@ WSGI_APPLICATION = "service_payments.wsgi.application"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
-    "default": dj_database_url.config(
-        default="sqlite:///db.sqlite3", 
-        conn_max_age=600
-    )
+    "default": dj_database_url.config(default="sqlite:///db.sqlite3", conn_max_age=600)
 }
 
 
@@ -134,9 +131,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = "static/"
-if not DEBUG:    
-    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')        
-    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+if not DEBUG:
+    STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+    STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -175,7 +172,3 @@ SIMPLE_JWT = {
 CORS_ALLOW_ALL_ORIGINS = True
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-if not DEBUG:    
-    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-
